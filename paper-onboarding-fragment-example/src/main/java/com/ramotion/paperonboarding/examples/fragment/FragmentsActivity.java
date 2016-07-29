@@ -1,6 +1,5 @@
 package com.ramotion.paperonboarding.examples.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,17 +41,29 @@ public class FragmentsActivity extends AppCompatActivity {
 
     private ArrayList<PaperOnboardingPage> getDataForOnboarding() {
         // prepare data
-        PaperOnboardingPage scr1 = new PaperOnboardingPage("Hotels", "All hotels and hostels are sorted by hospitality rating",
-                Color.parseColor("#678FB4"), R.drawable.hotels, R.drawable.key);
-        PaperOnboardingPage scr2 = new PaperOnboardingPage("Banks", "We carefully verify all banks before add them into the app",
-                Color.parseColor("#65B0B4"), R.drawable.banks, R.drawable.wallet);
-        PaperOnboardingPage scr3 = new PaperOnboardingPage("Stores", "All local stores are categorized for your convenience",
-                Color.parseColor("#9B90BC"), R.drawable.stores, R.drawable.shopping_cart);
+        PaperOnboardingPage.Builder builderPageOne = new PaperOnboardingPage.Builder(R.color
+                .colorAccent, R.drawable.hotels, R.drawable.key, R.string.hotel_title, R.string
+                .hotel_description);
+
+        PaperOnboardingPage.Builder builderPageTwo = new PaperOnboardingPage.Builder(R.color
+                .colorPrimary, R.drawable.banks, R.drawable.wallet, R.string.banks_title, R.string
+                .banks_description);
+
+        PaperOnboardingPage.Builder builderPageThree = new PaperOnboardingPage.Builder(R.color
+                .colorPrimaryDark, R.drawable.stores, R.drawable.shopping_cart, R.string.stores, R.string
+                .stores_description);
+        builderPageThree.withDescriptionColor(R.color.colorAccent);
+        builderPageThree.withTitleColor(R.color.colorPrimary);
+        builderPageThree.withBrandingIcon(R.drawable.brandingicon);
+
+        PaperOnboardingPage pageOne = builderPageOne.build();
+        PaperOnboardingPage pageTwo = builderPageTwo.build();
+        PaperOnboardingPage pageThree = builderPageThree.build();
 
         ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
-        elements.add(scr1);
-        elements.add(scr2);
-        elements.add(scr3);
+        elements.add(pageOne);
+        elements.add(pageTwo);
+        elements.add(pageThree);
         return elements;
     }
 }

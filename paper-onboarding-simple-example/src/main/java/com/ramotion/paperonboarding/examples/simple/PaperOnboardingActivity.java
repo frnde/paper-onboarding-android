@@ -1,6 +1,5 @@
 package com.ramotion.paperonboarding.examples.simple;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -19,12 +18,14 @@ public class PaperOnboardingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.onboarding_main_layout);
 
-        PaperOnboardingEngine engine = new PaperOnboardingEngine(findViewById(R.id.onboardingRootView), getDataForOnboarding(), getApplicationContext());
+        PaperOnboardingEngine engine = new PaperOnboardingEngine(findViewById(R.id.onboardingRootView),
+                getDataForOnboarding(), getApplicationContext());
 
         engine.setOnChangeListener(new PaperOnboardingOnChangeListener() {
             @Override
             public void onPageChanged(int oldElementIndex, int newElementIndex) {
-                Toast.makeText(getApplicationContext(), "Swiped from " + oldElementIndex + " to " + newElementIndex, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Swiped from " + oldElementIndex + " to " +
+                        newElementIndex, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -41,17 +42,30 @@ public class PaperOnboardingActivity extends AppCompatActivity {
     // Just example data for Onboarding
     private ArrayList<PaperOnboardingPage> getDataForOnboarding() {
         // prepare data
-        PaperOnboardingPage scr1 = new PaperOnboardingPage("Hotels", "All hotels and hostels are sorted by hospitality rating",
-                Color.parseColor("#678FB4"), R.drawable.hotels, R.drawable.key);
-        PaperOnboardingPage scr2 = new PaperOnboardingPage("Banks", "We carefully verify all banks before add them into the app",
-                Color.parseColor("#65B0B4"), R.drawable.banks, R.drawable.wallet);
-        PaperOnboardingPage scr3 = new PaperOnboardingPage("Stores", "All local stores are categorized for your convenience",
-                Color.parseColor("#9B90BC"), R.drawable.stores, R.drawable.shopping_cart);
+        // prepare data
+        PaperOnboardingPage.Builder buildePageOne = new PaperOnboardingPage.Builder(R.color
+                .colorAccent, R.drawable.hotels, R.drawable.key, R.string.hotel_title, R.string
+                .hotel_description);
+
+        PaperOnboardingPage.Builder buildePageTwo = new PaperOnboardingPage.Builder(R.color
+                .colorPrimary, R.drawable.banks, R.drawable.wallet, R.string.banks_title, R.string
+                .banks_description);
+
+        PaperOnboardingPage.Builder buildePageThree = new PaperOnboardingPage.Builder(R.color
+                .colorPrimaryDark, R.drawable.stores, R.drawable.shopping_cart, R.string.stores, R.string
+                .stores_description);
+        buildePageThree.withDescriptionColor(R.color.colorAccent);
+        buildePageThree.withTitleColor(R.color.colorPrimary);
+        buildePageThree.withBrandingIcon(R.drawable.brandingicon);
+
+        PaperOnboardingPage pageOne = buildePageOne.build();
+        PaperOnboardingPage pageTwo = buildePageTwo.build();
+        PaperOnboardingPage pageThree = buildePageThree.build();
 
         ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
-        elements.add(scr1);
-        elements.add(scr2);
-        elements.add(scr3);
+        elements.add(pageOne);
+        elements.add(pageTwo);
+        elements.add(pageThree);
         return elements;
     }
 }
