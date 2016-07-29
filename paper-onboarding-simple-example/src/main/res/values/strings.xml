@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">paper-onboarding-android</string>
+    <string name="app_name">paper-onboarding-fragment-example</string>
+    <string name="hotel_title">Hotel</string>
+    <string name="hotel_description">All hotels and hostels are sorted by hospitality rating</string>
+    <string name="banks_title">Banks</string>
+    <string name="banks_description">We carefully verify all banks before add them into the app</string>
+    <string name="stores">Stores</string>
+    <string name="stores_description">All local stores are categorized for your convenience</string>
 </resources>
