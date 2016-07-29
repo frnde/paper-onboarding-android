@@ -5,6 +5,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,7 +181,7 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
         ImageView initContentIcon = createContentIconView(activeElement);
         mContentIconContainer.addView(initContentIcon);
         // initial bg color
-        mRootLayout.setBackgroundColor(activeElement.getBgColor());
+        mRootLayout.setBackgroundColor(ContextCompat.getColor(mAppContext, activeElement.getBgColor()));
     }
 
     /**
@@ -200,7 +202,7 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
         int newPagerPosX = calculateNewPagerPosition(mActiveElementIndex);
 
         // 1 - animate BG
-        AnimatorSet bgAnimation = createBGAnimatorSet(newElement.getBgColor());
+        AnimatorSet bgAnimation = createBGAnimatorSet(ContextCompat.getColor(mAppContext, newElement.getBgColor()));
 
         // 2 - animate pager position
         Animator pagerMoveAnimation = ObjectAnimator.ofFloat(mPagerIconsContainer, "x", mPagerIconsContainer.getX(), newPagerPosX);
@@ -453,16 +455,27 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
     }
 
     /**
-     * @param PaperOnboardingPage new content page to show
+     * @param page new content page to show
      * @return configured view with new content texts
      */
-    protected ViewGroup createContentTextView(PaperOnboardingPage PaperOnboardingPage) {
+    protected ViewGroup createContentTextView(PaperOnboardingPage page) {
         LayoutInflater vi = LayoutInflater.from(mAppContext);
         ViewGroup contentTextView = (ViewGroup) vi.inflate(R.layout.onboarding_text_content_layout, mContentTextContainer, false);
         TextView contentTitle = (TextView) contentTextView.getChildAt(0);
-        contentTitle.setText(PaperOnboardingPage.getTitleText());
+        contentTitle.setText(mAppContext.getString(page.getTitleText()));
+        if (page.getTitleColor() != Integer.MIN_VALUE) {
+            contentTitle.setTextColor(ContextCompat.getColor(mAppContext, page.getTitleColor()));
+        }
         TextView contentText = (TextView) contentTextView.getChildAt(1);
-        contentText.setText(PaperOnboardingPage.getDescriptionText());
+        contentText.setText(mAppContext.getString(page.getDescriptionText()));
+        if (page.getDescriptionColor() != Integer.MIN_VALUE) {
+            contentText.setTextColor(ContextCompat.getColor(mAppContext, page.getDescriptionColor()));
+        }
+        if (page.getBrandingIcon()  != Integer.MIN_VALUE) {
+            ImageView imageView = ImageView.class.cast(contentTextView.getChildAt(2));
+            imageView.setImageDrawable(ContextCompat.getDrawable(mAppContext, page.getBrandingIcon()));
+            imageView.setVisibility(View.VISIBLE);
+        }
         return contentTextView;
     }
 
